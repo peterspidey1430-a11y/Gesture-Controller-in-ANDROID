@@ -37,6 +37,13 @@ jobs:
       - name: Install Android SDK packages
         run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
+      - name: Adjust Gradle JVM criteria
+        run: |
+          if [ -f gradle/gradle-daemon-jvm.properties ]; then
+            sed -i '/^toolchainVendor=/d' gradle/gradle-daemon-jvm.properties
+            cat gradle/gradle-daemon-jvm.properties
+          fi
+
       - name: Build APK
         run: gradle assembleDebug
 
